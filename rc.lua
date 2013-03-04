@@ -249,9 +249,12 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 --- CPU TEMPERATURE --- By Adarsh
 -- {{{ CPU temperature
 local thermalwidget  = widget({ type = "textbox" })
-vicious.register(thermalwidget, vicious.widgets.thermal, " $1°C", 20, { "coretemp.0", "core"} )
+vicious.register(thermalwidget, vicious.widgets.thermal, "$1°C", 20, { "coretemp.0", "core"} )
 -- }}}
 
+-- BATTERY CHARGE --- By Adarsh
+battwidget = widget({ type = "textbox" })
+vicious.register(battwidget, vicious.widgets.bat, 'BAT $1$2', 61, 'BAT0')
 
 -- {{{ CPU USAGE  --- By Adarsh for CPU Usage
 --cputextwidget = widget({
@@ -367,8 +370,9 @@ for s = 1, screen.count() do
 	separator,
 	thermalwidget, ---Added by Adarsh
 	separator,
+	battwidget,
+	separator,
 	mpdwidget,
-	--cputextwidget,
 	--	separator,
 --	memwidget,
         s == 1 and mysystray or nil,
