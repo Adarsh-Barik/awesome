@@ -227,12 +227,24 @@ wicked.register(cpuwidget, wicked.widgets.cpu,
     ' <span color="white">CPU</span> $1%')
 
 --- MPD STATUS --- By Adarsh
-mpdwidget = widget({
-    type = 'textbox',
-    name = 'mpdwidget'
-})
-wicked.register(mpdwidget, wicked.widgets.mpd,
-    ' <span color="white">Now Playing:</span> $1')
+--mpdwidget = widget({
+--   type = 'textbox',
+--    name = 'mpdwidget'
+--})
+--wicked.register(mpdwidget, wicked.widgets.mpd,
+--    ' <span color="white">Now Playing:</span> $1')
+-- Initialize widget
+mpdwidget = widget({ type = "textbox" })
+-- Register widget
+vicious.register(mpdwidget, vicious.widgets.mpd,
+    function (widget, args)
+        if args["{state}"] == "Stop" then 
+            return " - "
+        else 
+            return args["{Artist}"]..' - '.. args["{Title}"]
+        end
+    end, 10)
+
 
 --- CPU TEMPERATURE --- By Adarsh
 -- {{{ CPU temperature
@@ -354,8 +366,8 @@ for s = 1, screen.count() do
 	cpuwidget, --- Added by Adarsh
 	separator,
 	thermalwidget, ---Added by Adarsh
-	--separator,
-	--mpdwidget,
+	separator,
+	mpdwidget,
 	--cputextwidget,
 	--	separator,
 --	memwidget,
