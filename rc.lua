@@ -1,6 +1,5 @@
 --------------------CUSTOMIZED------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------
-
 --- BY Adarsh for volume_widget
 --
 cardid  = 0
@@ -87,7 +86,15 @@ require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
 
-
+-----------------------------------------------------------------------------------------------------------------------------
+--------------------------STARTUP PROGRAMS-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------
+--- By Adarsh for transparency
+awful.util.spawn_with_shell("xcompmgr -cF &")
+--- By Adarsh for tilda
+awful.util.spawn_with_shell("tilda -h")
+--- By Adarsh for synapse
+awful.util.spawn_with_shell("synapse --startup")
 
 -----------------------------------------------------------------------------------------------------------------------------
 ---------------------------------- ERROR HANDLING----------------------------------------------------------------------------
@@ -168,7 +175,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags ={
-	names = {"main","firefox","music","home","media","latex","bg",8,9},
+	names = {"main","web","code","home","media","tex","dc","bg",9},
 	layout= {layouts[2],layouts[3],layouts[2],layouts[3],layouts[3],layouts[2],layouts[2],layouts[1],layouts[1]}}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -193,7 +200,11 @@ myawesomemenu = {
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "Debian", debian.menu.Debian_menu.Debian },
-                                    { "open terminal", terminal }
+                                    { "open terminal", terminal },
+				    {"Firefox", "firefox"},
+				    {"Pidgin", "pidgin"},
+				    {"Home","nautilus"}
+			--	    {"Log out", '/usr/bin/shutdown_dialog.sh'}
                                   }
                         })
 
@@ -532,6 +543,9 @@ clientbuttons = awful.util.table.join(
 -- Set keys
 root.keys(globalkeys)
 
+
+--- Global Keys by Adarsh
+--awful.key({ }, "F12", function () awful.util.spawn_with_shell("synapse") end)
 
 
 --awful.key({ }, "XF86AudioRaiseVolume", function ())
