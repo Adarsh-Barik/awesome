@@ -134,6 +134,8 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+--beautiful.init("/home/adarsh/.config/awesome/themes/nice-and-clean-theme/theme.lua")
+
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
