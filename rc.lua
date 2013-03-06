@@ -134,7 +134,6 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
---beautiful.init("/home/adarsh/.config/awesome/themes/nice-and-clean-theme/theme.lua")
 
 
 -- This is used later as the default terminal and editor to run.
@@ -205,8 +204,8 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "open terminal", terminal },
 				    {"Firefox", "firefox"},
 				    {"Pidgin", "pidgin"},
-				    {"Home","nautilus"}
-			--	    {"Log out", '/usr/bin/shutdown_dialog.sh'}
+				    {"Home","nautilus"},
+				    {"Log out", "/home/adarsh/.config/awesome/shutdown_dialog.sh"}
                                   }
                         })
 
