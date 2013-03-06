@@ -571,8 +571,8 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-		     --maximized_vertical = false,
-		     --maximized_horizontal = false,
+		     maximized_vertical = false,--- Added by Adarsh
+		     maximized_horizontal = false,--- Added by Adarsh
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
