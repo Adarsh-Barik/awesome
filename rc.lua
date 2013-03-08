@@ -58,12 +58,21 @@ end
 ----------------------------------------------------------------------------------------------------------------------------
 --volume widget ---Added by Adarsh
 tb_volume = widget({ type = "textbox", name = "tb_volume", align = "right" })
+--tb_volume.color="red"
 tb_volume:buttons({
 	button({ }, 4, function () volume("up", tb_volume) end),
 	button({ }, 5, function () volume("down", tb_volume) end),
 	button({ }, 1, function () volume("mute", tb_volume) end)
 })
 volume("update", tb_volume)
+
+
+--cricinfo score widget ---Added by Adarsh
+function get_score()
+	local fd = io.popen("/home/adarsh/Downloads/gen/getmusic-v1.1/score.py")
+	local str = fd:read("*all")
+	return str 
+end
 
 
 -----------------------------------------------------------------------------------------------------------------------------
@@ -223,11 +232,13 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- Network Usage widget
 -- Initialize widget 
 netwidget = widget({type="textbox"})
+netwidget.width, netwidget.align=50,"right"
 -- Register widget
 vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
+
 -- separator 
 separator = widget({type="textbox"})
-separator.text="::"
+separator.text="|"
 
 --- CPU USAGE --- By Adarsh
 cpuwidget = widget({
@@ -236,7 +247,7 @@ cpuwidget = widget({
 })
 
 wicked.register(cpuwidget, wicked.widgets.cpu,
-    ' <span color="white">CPU</span> $1%')
+    ' <span color="yellow" stretch="semiexpanded">CPU $1%</span>',nil,nil,2)
 
 --- MPD STATUS --- By Adarsh
 --mpdwidget = widget({
@@ -247,6 +258,9 @@ wicked.register(cpuwidget, wicked.widgets.cpu,
 --    ' <span color="white">Now Playing:</span> $1')
 -- Initialize widget
 mpdwidget = widget({ type = "textbox" })
+mpdwidget.fg ="#0B0B61"
+--mpdwidget = awful.widget.textbox()
+--mpdwidget:set_background_color("#494B4F")
 -- Register widget
 vicious.register(mpdwidget, vicious.widgets.mpd,
     function (widget, args)
@@ -254,6 +268,7 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
             return " - "
         else 
             return args["{Artist}"]..' - '.. args["{Title}"]
+	    --return '<span color="blue">args["{Artist}"]..' - '.. args["{Title}"]</span>'
         end
     end, 10)
 
@@ -261,12 +276,24 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 --- CPU TEMPERATURE --- By Adarsh
 -- {{{ CPU temperature
 local thermalwidget  = widget({ type = "textbox" })
-vicious.register(thermalwidget, vicious.widgets.thermal, "$1°C", 20, { "coretemp.0", "core"} )
+vicious.register(thermalwidget, vicious.widgets.thermal,'<span color="yellow">$1°C</span>', 20, { "coretemp.0", "core"} )
 -- }}}
 
 -- BATTERY CHARGE --- By Adarsh
 battwidget = widget({ type = "textbox" })
-vicious.register(battwidget, vicious.widgets.bat, 'BAT $1$2', 61, 'BAT0')
+vicious.register(battwidget, vicious.widgets.bat, '<span color="yellow">BAT $1$2</span>', 61, 'BAT0')
+
+
+
+--- SCORE WIDGET --- By Adarsh
+score = widget({type="textbox"})
+--get_score()
+score.text=get_score()
+mytimer = timer({timeout = 60})
+mytimer:add_signal("timeout", function() 
+	score.text=get_score() end)
+mytimer:start()
+
 
 -- {{{ CPU USAGE  --- By Adarsh for CPU Usage
 --cputextwidget = widget({
@@ -384,7 +411,9 @@ for s = 1, screen.count() do
 	separator,
 	battwidget,
 	separator,
-	mpdwidget,
+	--mpdwidget,--- Added by Adarsh
+	--separator,
+	score, ---Added by Adarsh
 	--	separator,
 --	memwidget,
         s == 1 and mysystray or nil,
@@ -461,6 +490,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({}, "F8", function () awful.util.spawn("ncmpcpp pause") end),--- By Adarsh for mpc
+    awful.key({}, "F9", function () awful.util.spawn("ncmpcpp play") end),--- By Adarsh for mpc
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
