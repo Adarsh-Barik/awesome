@@ -67,9 +67,9 @@ tb_volume:buttons({
 volume("update", tb_volume)
 
 
---cricinfo score widget ---Added by Adarsh
+--- cricinfo score widget ---Added by Adarsh
 function get_score()
-	local fd = io.popen("/home/adarsh/Downloads/gen/getmusic-v1.1/score.py")
+	local fd = io.popen("/home/adarsh/.config/awesome/score.py")
 	local str = fd:read("*all")
 	return str 
 end
@@ -287,7 +287,6 @@ vicious.register(battwidget, vicious.widgets.bat, '<span color="yellow">BAT $1$2
 
 --- SCORE WIDGET --- By Adarsh
 score = widget({type="textbox"})
---get_score()
 score.text=get_score()
 mytimer = timer({timeout = 60})
 mytimer:add_signal("timeout", function() 
