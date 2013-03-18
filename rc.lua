@@ -68,11 +68,11 @@ volume("update", tb_volume)
 
 
 --- cricinfo score widget ---Added by Adarsh
-function get_score()
-	local fd = io.popen("/home/adarsh/.config/awesome/score.py")
-	local str = fd:read("*all")
-	return str 
-end
+--function get_score()
+--	local fd = io.popen("/home/adarsh/.config/awesome/score.py")
+--	local str = fd:read("*all")
+--	return str 
+--end
 
 
 -----------------------------------------------------------------------------------------------------------------------------
@@ -104,6 +104,8 @@ awful.util.spawn_with_shell("xcompmgr -cF &")
 awful.util.spawn_with_shell("tilda -h")
 --- By Adarsh for synapse
 awful.util.spawn_with_shell("synapse --startup")
+--- By Adarsh for dropbox
+awful.util.spawn_with_shell("dropbox start")
 
 -----------------------------------------------------------------------------------------------------------------------------
 ---------------------------------- ERROR HANDLING----------------------------------------------------------------------------
@@ -286,13 +288,13 @@ vicious.register(battwidget, vicious.widgets.bat, '<span color="yellow">BAT $1$2
 
 
 --- SCORE WIDGET --- By Adarsh
-score = widget({type="textbox"})
-score.text=get_score()
-mytimer = timer({timeout = 60})
-mytimer:add_signal("timeout", function() 
-	score.text=get_score() end)
-mytimer:start()
-
+--score = widget({type="textbox"})
+--score.text=get_score()
+--mytimer = timer({timeout = 30})
+--mytimer:add_signal("timeout", function() 
+--	score.text=get_score() end)
+--mytimer:start()
+--
 
 -- {{{ CPU USAGE  --- By Adarsh for CPU Usage
 --cputextwidget = widget({
@@ -410,9 +412,9 @@ for s = 1, screen.count() do
 	separator,
 	battwidget,
 	separator,
-	--mpdwidget,--- Added by Adarsh
+	mpdwidget,--- Added by Adarsh
 	--separator,
-	score, ---Added by Adarsh
+	--score, ---Added by Adarsh
 	--	separator,
 --	memwidget,
         s == 1 and mysystray or nil,
@@ -601,8 +603,8 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-		     maximized_vertical = false,--- Added by Adarsh
-		     maximized_horizontal = false,--- Added by Adarsh
+		    maximized_vertical = false,--- Added by Adarsh
+		    maximized_horizontal = false,--- Added by Adarsh
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
@@ -610,6 +612,9 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+      --- Added by Adarsh
+    {rule = {class = "Tilda"},
+     properties = { maximized_vertical = true, maximized_horizontal = true, floating = true}},
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },

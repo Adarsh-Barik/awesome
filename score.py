@@ -9,8 +9,8 @@
 import os
 from BeautifulSoup import BeautifulSoup as Soup
 
-url='https://www.espncricinfo.com/new-zealand-v-england-2013/engine/current/match/569243.html'
-os.system('wget -O match.html http://www.espncricinfo.com/sri-lanka-v-bangladesh-2013/engine/current/match/602472.html')
+#url='https://www.espncricinfo.com/new-zealand-v-england-2013/engine/current/match/569243.html'
+os.system('wget -O match.html http://www.espncricinfo.com/india-v-australia-2013/engine/current/match/598814.html')
 match = open('match.html').read()
 soup = Soup(match)
 title = soup.findAll('title')
