@@ -95,6 +95,8 @@ require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
 
+--- Added by Adarsh for logout menu 
+require("logout.menu")
 -----------------------------------------------------------------------------------------------------------------------------
 --------------------------STARTUP PROGRAMS-----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------
@@ -216,7 +218,8 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 				    {"Firefox", "firefox"},
 				    {"Pidgin", "pidgin"},
 				    {"Home","nautilus"},
-				    {"Log out", "/home/adarsh/.config/awesome/shutdown_dialog.sh"}
+				    --{"Log out", "/home/adarsh/.config/awesome/shutdown_dialog.sh"},
+				    {"Logout", logout.menu.Logout_menu.Logout},
                                   }
                         })
 
@@ -614,7 +617,7 @@ awful.rules.rules = {
       properties = { floating = true } },
       --- Added by Adarsh
     {rule = {class = "Tilda"},
-     properties = { maximized_vertical = true, maximized_horizontal = true, floating = true}},
+     properties = { maximized_vertical = true, maximized_horizontal = true}},
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
