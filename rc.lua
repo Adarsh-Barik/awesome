@@ -146,8 +146,8 @@ end
 ---
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
-
+beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+--beautiful.init("/home/adarsh/.config/awesome/themes/colored/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -185,18 +185,38 @@ layouts =
     awful.layout.suit.magnifier
 }
 -- }}}
-
+--- working
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
+--tags ={
+--	names = {"main","web","code","home","media","tex","dc","bg","pdf"},
+--	layout= {layouts[2],layouts[3],layouts[2],layouts[3],layouts[3],layouts[2],layouts[2],layouts[1],layouts[2]}}
+--for s = 1, screen.count() do
+--    -- Each screen has its own tag table.
+--    tags[s] = awful.tag(tags.names, s, tags.layout)
+--end
+--
+--working 
+
 tags ={
-	names = {"main","web","code","home","media","tex","dc","bg",9},
-	layout= {layouts[2],layouts[3],layouts[2],layouts[3],layouts[3],layouts[2],layouts[2],layouts[1],layouts[1]}}
+	names = {"main","web","code","file","pdf"},
+	layout= {layouts[2],layouts[3],layouts[2],layouts[3],layouts[2]},
+	icons = {"/home/adarsh/.config/awesome/themes/colored/widgets/cyan/arch.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/mail.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/info_01.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/diskette.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/cpu.png"}
+}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag(tags.names, s, tags.layout)
+    awful.tag.seticon(tags.icons[1],tags[s][1])
+    awful.tag.seticon(tags.icons[2],tags[s][2])
+    awful.tag.seticon(tags.icons[3],tags[s][3])
+    awful.tag.seticon(tags.icons[4],tags[s][4])
+    awful.tag.seticon(tags.icons[5],tags[s][5])
 end
 -- }}}
 
+--for a = 1, 5, 1 do
+--	awful.tag.setproperty(tags[1][a], "icon_only", 1)
+--end
 
 
 -----------------------------------------------------------------------------------------------------------------------------
@@ -237,7 +257,7 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- Network Usage widget
 -- Initialize widget 
 netwidget = widget({type="textbox"})
-netwidget.width, netwidget.align=50,"right"
+netwidget.width, netwidget.align=40,"right"
 -- Register widget
 vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
 
@@ -252,7 +272,7 @@ cpuwidget = widget({
 })
 
 wicked.register(cpuwidget, wicked.widgets.cpu,
-    ' <span color="yellow" stretch="semiexpanded">CPU $1%</span>',nil,nil,2)
+    ' <span color="blue" stretch="semiexpanded"> $1%</span>',nil,nil,2)
 
 --- MPD STATUS --- By Adarsh
 --mpdwidget = widget({
@@ -263,7 +283,8 @@ wicked.register(cpuwidget, wicked.widgets.cpu,
 --    ' <span color="white">Now Playing:</span> $1')
 -- Initialize widget
 mpdwidget = widget({ type = "textbox" })
-mpdwidget.fg ="#0B0B61"
+--mpdwidget.bg ="#0B0B61"
+--mpdwidget.bg ="#08088A"
 --mpdwidget = awful.widget.textbox()
 --mpdwidget:set_background_color("#494B4F")
 -- Register widget
@@ -277,16 +298,15 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
         end
     end, 10)
 
-
 --- CPU TEMPERATURE --- By Adarsh
 -- {{{ CPU temperature
 local thermalwidget  = widget({ type = "textbox" })
-vicious.register(thermalwidget, vicious.widgets.thermal,'<span color="yellow">$1°C</span>', 20, { "coretemp.0", "core"} )
+vicious.register(thermalwidget, vicious.widgets.thermal,'<span color="red">$1°C</span>', 20, { "coretemp.0", "core"} )
 -- }}}
 
 -- BATTERY CHARGE --- By Adarsh
 battwidget = widget({ type = "textbox" })
-vicious.register(battwidget, vicious.widgets.bat, '<span color="yellow">BAT $1$2</span>', 61, 'BAT0')
+vicious.register(battwidget, vicious.widgets.bat, '<span color="green"> $1$2</span>', 61, 'BAT0')
 
 
 
@@ -299,33 +319,25 @@ vicious.register(battwidget, vicious.widgets.bat, '<span color="yellow">BAT $1$2
 --mytimer:start()
 --
 
--- {{{ CPU USAGE  --- By Adarsh for CPU Usage
---cputextwidget = widget({
---	type = 'textbox',
---	name = 'cputextwidget',
---	align = 'right'
---})
-
---wicked.register(cputextwidget, 'cpu', function(widget, args)
---	cpuinfo = title("CPU")
---	cpuinfo = color(cpuinfo..'['..args[2]..'% '..cputemp(0)..'°C]  ', gradient(0, 100, tonumber(args[2])))
---	cpuinfo = color(cpuinfo..'['..args[3]..'% '..cputemp(1)..'°C]  ', gradient(0, 100, tonumber(args[3])))
---	cpuinfo = color(cpuinfo..'['..args[4]..'% '..cputemp(2)..'°C]  ', gradient(0, 100, tonumber(args[4])))
---	cpuinfo = color(cpuinfo..'['..args[5]..'% '..cputemp(3)..'°C]  ', gradient(0, 100, tonumber(args[5])))
---	return cpuinfo
---end, 1, nil, 2)
--- }}}
-
---Memory Usage widget
---Initialize widget
---memwidget = wibox.widget.textbox()
---Register widget
---vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB)", 13)
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
+
+--- Icons for widgets by Adarsh
+dnicon = widget({ type = "imagebox" })
+upicon = widget({ type = "imagebox" })
+dnicon.image = image(beautiful.widget_net_down)
+upicon.image = image(beautiful.widget_net_up)
+bat = widget({ type = "imagebox" })
+temp = widget({ type = "imagebox" })
+bat.image = image(beautiful.widget_bat)
+temp.image = image(beautiful.widget_temp)
+cpu_icon = widget({ type = "imagebox" })
+vol = widget({ type = "imagebox" })
+cpu_icon.image = image(beautiful.widget_CPU)
+vol.image = image(beautiful.widget_vol)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -406,14 +418,20 @@ for s = 1, screen.count() do
         mytextclock,
 	separator,
 	tb_volume, --- Added by Adarsh
+	vol,
 	separator,
+	dnicon,
 	netwidget,
+	upicon,
 	separator,
 	cpuwidget, --- Added by Adarsh
+	cpu_icon,
 	separator,
 	thermalwidget, ---Added by Adarsh
+	temp,
 	separator,
 	battwidget,
+	bat,
 	separator,
 	mpdwidget,--- Added by Adarsh
 	--separator,
@@ -619,8 +637,8 @@ awful.rules.rules = {
     {rule = {class = "Tilda"},
      properties = { maximized_vertical = true, maximized_horizontal = true}},
     -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    { rule = { class = "Firefox" },
+       properties = { tag = tags[1][2] } },
 }
 -- }}}
 

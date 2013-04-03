@@ -1,0 +1,9 @@
+#!/bin/bash
+var1=$(pidof X)
+while true
+do
+    find $HOME/Downloads/Wallbase -type f -name '*.jpg' -o -name '*.png' | shuf -n 1 | xargs feh --bg-scale
+    sleep 300
+    if[$(pidof X) -ne $var1]
+        break 
+done
