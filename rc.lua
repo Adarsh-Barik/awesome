@@ -33,27 +33,6 @@ function volume (mode, widget)
 	end
 end
 ----------------------------------------------------------------------------------------------------------------------------
---
---- By Adarsh for CPU Usage and Temperature
-
---function gradient(min, max, val)
---	if (val > max) then val = max end
---	if (val < min) then val = min end
---
---	local v = val - min
---	local d = (max - min) * 0.5
---	local red, green
---
---	if (v <= d) then
---		red = (255 * v) / d
---		green = 255
---	else
---		red = 255
---		green = 255 - (255 * (v-d)) / (max - min - d)
---	end
---
---	return string.format("#%02x%02x00", red, green)
---end
 ----------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------
 --volume widget ---Added by Adarsh
@@ -275,18 +254,8 @@ wicked.register(cpuwidget, wicked.widgets.cpu,
     ' <span color="blue" stretch="semiexpanded"> $1%</span>',nil,nil,2)
 
 --- MPD STATUS --- By Adarsh
---mpdwidget = widget({
---   type = 'textbox',
---    name = 'mpdwidget'
---})
---wicked.register(mpdwidget, wicked.widgets.mpd,
---    ' <span color="white">Now Playing:</span> $1')
 -- Initialize widget
 mpdwidget = widget({ type = "textbox" })
---mpdwidget.bg ="#0B0B61"
---mpdwidget.bg ="#08088A"
---mpdwidget = awful.widget.textbox()
---mpdwidget:set_background_color("#494B4F")
 -- Register widget
 vicious.register(mpdwidget, vicious.widgets.mpd,
     function (widget, args)
@@ -324,6 +293,30 @@ mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
+
+
+--- Launcher for widgets by Adarsh 
+mpc_pause_launcher = awful.widget.launcher({name="mpc_pause_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/yellow/pause.png", command="ncmpcpp pause"})
+mpc_play_launcher = awful.widget.launcher({name="mpc_play_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/green/play.png", command="ncmpcpp play"})
+mpc_stop_launcher = awful.widget.launcher({name="mpc_stop_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/red/stop.png", command="ncmpcpp stop"})
+mpc_prev_launcher = awful.widget.launcher({name="mpc_prev_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/blue/prev.png", command="ncmpcpp prev"})
+mpc_next_launcher = awful.widget.launcher({name="mpc_next_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/blue/next.png", command="ncmpcpp next"})
+
+--- Tooltip for mpc launchers by Adarsh
+mpc_tooltip = awful.tooltip({
+objects = {mpc_play_launcher},
+	timer_function = function()
+	local fs = io.popen("ncmpcpp --now-playing")
+	local strs = fs:read("*all")
+	local str = string.gsub(strs,"&","and")
+	--local str = string.format("%q",strs)
+	return str
+end,
+})
+mpc_tooltip:add_to_object(mpc_next_launcher)
+mpc_tooltip:add_to_object(mpc_stop_launcher)
+mpc_tooltip:add_to_object(mpc_prev_launcher)
+mpc_tooltip:add_to_object(mpc_pause_launcher)
 
 --- Icons for widgets by Adarsh
 dnicon = widget({ type = "imagebox" })
@@ -433,8 +426,13 @@ for s = 1, screen.count() do
 	battwidget,
 	bat,
 	separator,
-	mpdwidget,--- Added by Adarsh
-	--separator,
+	mpc_next_launcher,
+	mpc_stop_launcher,
+	mpc_play_launcher,
+	mpc_pause_launcher,
+	mpc_prev_launcher,
+	--mpdwidget,--- Added by Adarsh
+	separator,
 	--score, ---Added by Adarsh
 	--	separator,
 --	memwidget,
@@ -599,17 +597,6 @@ root.keys(globalkeys)
 
 
 --- Global Keys by Adarsh
---awful.key({ }, "F12", function () awful.util.spawn_with_shell("synapse") end)
-
-
---awful.key({ }, "XF86AudioRaiseVolume", function ())
---	awful.util.spawn("amixer set Master 9%+", false) end,
---awful.key({ }, "XF86AudioLowerVolume", function ())
---	awful.util.spawn("amixer set Master 9%-", false) end,
---wful.key({ }, "XF86AudioMute", function ()
---	awful.util.spawn("amixer sset Master toggle", false) end),
--- }}}
-
 -- {{{ Rules
 --
 --
