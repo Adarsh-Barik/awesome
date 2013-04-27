@@ -7,7 +7,7 @@ Logout_menu = {}
 Logout_menu["Logout"] = {
 	{"Shutdown","/usr/lib/indicator-session/gtk-logout-helper -s"},
 	{"Restart","/usr/lib/indicator-session/gtk-logout-helper -r" },
---	{"Suspend", terminal .. " -e dbus-send --system  --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend"},
+--    {"Suspend",-terminal 'dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend > /dev/null'},
 	{"Logout", "/usr/lib/indicator-session/gtk-logout-helper -l"},
 	{"Lock", "xlock"},
 }

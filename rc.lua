@@ -87,6 +87,8 @@ awful.util.spawn_with_shell("tilda -h")
 awful.util.spawn_with_shell("synapse --startup")
 --- By Adarsh for dropbox
 awful.util.spawn_with_shell("dropbox start")
+--- By Adarsh for Random wallpapers
+awful.util.spawn_with_shell("sh ~/wall.sh")
 
 -----------------------------------------------------------------------------------------------------------------------------
 ---------------------------------- ERROR HANDLING----------------------------------------------------------------------------
@@ -129,7 +131,8 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 --beautiful.init("/home/adarsh/.config/awesome/themes/colored/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
+--terminal = "x-terminal-emulator"
+terminal = "xterm"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -510,8 +513,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({}, "F8", function () awful.util.spawn("ncmpcpp pause") end),--- By Adarsh for mpc
-    awful.key({}, "F9", function () awful.util.spawn("ncmpcpp play") end),--- By Adarsh for mpc
+--  awful.key({}, "F8", function () awful.util.spawn("ncmpcpp pause") end),--- By Adarsh for mpc
+--  awful.key({}, "F9", function () awful.util.spawn("ncmpcpp play") end),--- By Adarsh for mpc
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -611,11 +614,12 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-		    maximized_vertical = false,--- Added by Adarsh
-		    maximized_horizontal = false,--- Added by Adarsh
+		   			 maximized_vertical = false,--- Added by Adarsh
+		   			 maximized_horizontal = false,--- Added by Adarsh
+					 size_hints_honor = false,
                      buttons = clientbuttons } },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
+   -- { rule = { class = "MPlayer" },
+     -- properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
@@ -626,6 +630,7 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     { rule = { class = "Firefox" },
        properties = { tag = tags[1][2] } },
+    {rule = {class = "Sxiv"}, properties={floating = true}},
 }
 -- }}}
 
