@@ -91,6 +91,8 @@ awful.util.spawn_with_shell("dropbox start")
 awful.util.spawn_with_shell("sh ~/wall.sh")
 --- By Adarsh for Conky
 awful.util.spawn_with_shell("conky -c ~/.conky/.conkyrc.awesome")
+--- By Adarsh for clipit
+awful.util.spawn_with_shell("clipit -n")
 
 -----------------------------------------------------------------------------------------------------------------------------
 ---------------------------------- ERROR HANDLING----------------------------------------------------------------------------
@@ -243,8 +245,8 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 netwidget = widget({type="textbox"})
 netwidget.width, netwidget.align=40,"right"
 -- Register widget
-vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
-
+--vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
+vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span>', 3)
 -- separator 
 separator = widget({type="textbox"})
 separator.text="|"
