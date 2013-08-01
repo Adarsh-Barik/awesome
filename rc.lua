@@ -47,10 +47,10 @@ volume("update", tb_volume)
 
 
 --- cricinfo score widget ---Added by Adarsh
---function get_score()
---	local fd = io.popen("/home/adarsh/.config/awesome/score.py")
---	local str = fd:read("*all")
---	return str 
+--[[function get_score()]]
+    --local fd = io.popen("/home/adarsh/.config/awesome/score.py")
+    --local str = fd:read("*all")
+    --return str 
 --end
 
 
@@ -70,12 +70,15 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
-
+-- Library for scratchpad --
+-- Added by Adarsh --
+local scratch = require("scratch")
 -- Load Debian menu entries
 require("debian.menu")
 
 --- Added by Adarsh for logout menu 
 require("logout.menu")
+
 -----------------------------------------------------------------------------------------------------------------------------
 --------------------------STARTUP PROGRAMS-----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------
@@ -86,9 +89,9 @@ awful.util.spawn_with_shell("tilda -h")
 --- By Adarsh for synapse
 awful.util.spawn_with_shell("synapse --startup")
 --- By Adarsh for dropbox
-awful.util.spawn_with_shell("dropbox start")
+--awful.util.spawn_with_shell("~/.dropbox-dist/dropboxd")
 --- By Adarsh for Random wallpapers
-awful.util.spawn_with_shell("sh ~/wall.sh")
+awful.util.spawn_with_shell("sh ~/.config/awesome/wall.sh")
 --- By Adarsh for Conky
 awful.util.spawn_with_shell("conky -c ~/.conky/.conkyrc.awesome")
 --- By Adarsh for clipit
@@ -222,7 +225,7 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "Debian", debian.menu.Debian_menu.Debian },
                                     { "open terminal", terminal },
 				    {"Firefox", "firefox"},
-				    {"Pidgin", "pidgin"},
+					--{"Pidgin", "pidgin"},
 				    {"Home","nautilus"},
 				    --{"Log out", "/home/adarsh/.config/awesome/shutdown_dialog.sh"},
 				    {"Logout", logout.menu.Logout_menu.Logout},
@@ -291,7 +294,7 @@ vicious.register(battwidget, vicious.widgets.bat, '<span color="green"> $1$2</sp
 --score.text=get_score()
 --mytimer = timer({timeout = 30})
 --mytimer:add_signal("timeout", function() 
---	score.text=get_score() end)
+    --score.text=get_score() end)
 --mytimer:start()
 --
 
@@ -440,7 +443,7 @@ for s = 1, screen.count() do
 	mpc_prev_launcher,
 	--mpdwidget,--- Added by Adarsh
 	separator,
-	--score, ---Added by Adarsh
+    --score, ---Added by Adarsh
 	--	separator,
 --	memwidget,
         s == 1 and mysystray or nil,
@@ -522,6 +525,14 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 --  awful.key({}, "F8", function () awful.util.spawn("ncmpcpp pause") end),--- By Adarsh for mpc
 --  awful.key({}, "F9", function () awful.util.spawn("ncmpcpp play") end),--- By Adarsh for mpc
+--  For scratchpad clients --
+--  By Adarsh --
+    --awful.key({ modkey }, "s", function () scratch.pad.toggle() end),
+    --awful.key({ modkey }, "d", function ("xterm") scratch.pad.set("xterm", 0.60, 0.60, false) end),
+    awful.key({ modkey }, "F1", function () scratch.drop("xterm ranger", "center") end),
+    awful.key({ modkey }, "F2", function () scratch.drop("xterm ncmpcpp", "bottom", "center", 1,0.5) end),
+    awful.key({ modkey }, "F12", function () scratch.drop("gvim /home/adarsh/Temporary/how_to_code", "center", "right",0.2,0.8) end),
+
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -629,7 +640,7 @@ awful.rules.rules = {
      -- properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
-    { rule = { class = "gimp" },
+    { rule = { class = "Gimp" },
       properties = { floating = true } },
       --- Added by Adarsh
     {rule = {class = "Tilda"},

@@ -1,0 +1,4 @@
+#!/bin/sh 
+mv $1 ~/Dropbox/ 
+ln -s ~/Dropbox/$1 ./$1
+
