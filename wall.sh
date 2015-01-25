@@ -1,6 +1,6 @@
 #! /bin/sh 
 while true; do
-    find ~/Downloads/wallpaper/ -type f \( -name '*.jpg' -o -name '*.png' \) -print0 |
-            shuf -n1 -z | xargs -0 feh --bg-fill
+    find /home/adarsh/Downloads/wallpaper/ -type f \( -name '*.jpg' -o -name '*.png' \) -print0 |
+            shuf -n1 -z | xargs -0 feh --bg-max
     sleep 1m
 done

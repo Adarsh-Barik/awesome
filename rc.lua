@@ -1,67 +1,22 @@
---------------------CUSTOMIZED------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------
---- BY Adarsh for volume_widget
+-- Config file for awesome <=3.4
+-- Author - Adarsh
+-- Use at your own risk
 --
-cardid  = 0
-channel = "Master"
-function volume (mode, widget)
-	if mode == "update" then
-		local fd = io.popen("amixer -c " .. cardid .. " -- sget " .. channel)
-		local status = fd:read("*all")
-		fd:close()
 
-		local volume = string.match(status, "(%d?%d?%d)%%")
-		volume = string.format("% 3d", volume)
-
-		status = string.match(status, "%[(o[^%]]*)%]")
-
-		if string.find(status, "on", 1, true) then
-			volume = volume .. "%"
-		else
-			volume = volume .. "M"
-		end
-		widget.text = volume
-	elseif mode == "up" then
-		io.popen("amixer -q -c " .. cardid .. " sset " .. channel .. " 5%+"):read("*all")
-		volume("update", widget)
-	elseif mode == "down" then
-		io.popen("amixer -q -c " .. cardid .. " sset " .. channel .. " 5%-"):read("*all")
-		volume("update", widget)
-	else
-		io.popen("amixer -c " .. cardid .. " sset " .. channel .. " toggle"):read("*all")
-		volume("update", widget)
-	end
-end
-----------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------
---volume widget ---Added by Adarsh
-tb_volume = widget({ type = "textbox", name = "tb_volume", align = "right" })
---tb_volume.color="red"
-tb_volume:buttons({
-	button({ }, 4, function () volume("up", tb_volume) end),
-	button({ }, 5, function () volume("down", tb_volume) end),
-	button({ }, 1, function () volume("mute", tb_volume) end)
-})
-volume("update", tb_volume)
-
-
+-- Widget for cricinfo that fetches live score
 --- cricinfo score widget ---Added by Adarsh
 --[[function get_score()]]
-    --local fd = io.popen("/home/adarsh/.config/awesome/score.py")
+    --local fd = io.popen("/home/reddragon/.config/awesome/score.py")
     --local str = fd:read("*all")
     --return str 
 --end
 
 
------------------------------------------------------------------------------------------------------------------------------
---------- LIBRARIES----------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
+-- Libraries
 --
--- For vicious
-vicious = require("vicious") -- By Adarsh for vicious
-require("revelation") --- By Adarsh for revealation
-require("wicked") --- By Adarsh for wicked
+vicious = require("vicious") 
+require("revelation") 
+require("wicked") 
 -- Standard awesome library
 require("awful")
 require("awful.autofocus")
@@ -71,7 +26,6 @@ require("beautiful")
 -- Notification library
 require("naughty")
 -- Library for scratchpad --
--- Added by Adarsh --
 local scratch = require("scratch")
 -- Load Debian menu entries
 require("debian.menu")
@@ -79,28 +33,18 @@ require("debian.menu")
 --- Added by Adarsh for logout menu 
 require("logout.menu")
 
------------------------------------------------------------------------------------------------------------------------------
---------------------------STARTUP PROGRAMS-----------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
---- By Adarsh for transparency
+-- Startup Programs
+--- For transparency
 awful.util.spawn_with_shell("xcompmgr -cF &")
---- By Adarsh for tilda
-awful.util.spawn_with_shell("tilda -h")
---- By Adarsh for synapse
-awful.util.spawn_with_shell("synapse --startup")
---- By Adarsh for dropbox
+-- For dropbox
 --awful.util.spawn_with_shell("~/.dropbox-dist/dropboxd")
---- By Adarsh for Random wallpapers
+awful.util.spawn_with_shell("tilda")
+--- For Random wallpapers
 awful.util.spawn_with_shell("sh ~/.config/awesome/wall.sh")
---- By Adarsh for Conky
+--- For Conky
 awful.util.spawn_with_shell("conky -c ~/.conky/.conkyrc.awesome")
---- By Adarsh for clipit
-awful.util.spawn_with_shell("clipit -n")
 
------------------------------------------------------------------------------------------------------------------------------
----------------------------------- ERROR HANDLING----------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
---
+-- Error Handling
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -128,18 +72,24 @@ end
 
 
 
------------------------------------------------------------------------------------------------------------------------------
---------------------------------------THEME AND COLOURS----------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------
----
+--- Theme and colors
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
---beautiful.init("/home/adarsh/.config/awesome/themes/colored/theme.lua")
+--beautiful.init("/home/reddragon/.config/awesome/themes/colored/theme.lua")
+
+-- Adding volume widget
+
+-- Load the widget.
+local APW = require("apw/widget")
+--right_layout:add(APW)
+
+--
+--
 
 -- This is used later as the default terminal and editor to run.
---terminal = "x-terminal-emulator"
-terminal = "xterm"
+terminal = "x-terminal-emulator"
+--terminal = "xterm"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -152,10 +102,7 @@ modkey = "Mod4"
 
 
 
------------------------------------------------------------------------------------------------------------------------------
-----------------------------------LAYOUTS AND TAGS---------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------
---
+-- Layout and tags
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -173,24 +120,11 @@ layouts =
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
--- }}}
---- working
--- {{{ Tags
--- Define a tag table which hold all screen tags.
---tags ={
---	names = {"main","web","code","home","media","tex","dc","bg","pdf"},
---	layout= {layouts[2],layouts[3],layouts[2],layouts[3],layouts[3],layouts[2],layouts[2],layouts[1],layouts[2]}}
---for s = 1, screen.count() do
---    -- Each screen has its own tag table.
---    tags[s] = awful.tag(tags.names, s, tags.layout)
---end
---
---working 
 
 tags ={
 	names = {"main","web","code","file","pdf"},
 	layout= {layouts[2],layouts[3],layouts[2],layouts[3],layouts[2]},
-	icons = {"/home/adarsh/.config/awesome/themes/colored/widgets/cyan/arch.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/mail.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/info_01.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/diskette.png","/home/adarsh/.config/awesome/themes/colored/widgets/cyan/cpu.png"}
+	icons = {"/home/reddragon/.config/awesome/themes/colored/widgets/cyan/arch.png","/home/reddragon/.config/awesome/themes/colored/widgets/cyan/mail.png","/home/reddragon/.config/awesome/themes/colored/widgets/cyan/info_01.png","/home/reddragon/.config/awesome/themes/colored/widgets/cyan/diskette.png","/home/reddragon/.config/awesome/themes/colored/widgets/cyan/cpu.png"}
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -203,15 +137,23 @@ for s = 1, screen.count() do
 end
 -- }}}
 
---for a = 1, 5, 1 do
---	awful.tag.setproperty(tags[1][a], "icon_only", 1)
+
+-- {{{ Tag Wallpapers
+--for s = 1, screen.count() do
+--    for t = 1, 5 do
+--        tags[s][t]:add_signal("property::selected", function (tag)
+--            if not tag.selected then return end
+--            --wallpaper_cmd = "awsetbg /home/user/Pictures/wallpaper" .. t .. ".png"
+--           -- wallpaper_cmd = "feh --bg-scale /home/adarsh/Downloads/wallpaper/" .. t ..
+--            wallpaper_cmd = "sh /home/reddragon/.config/awesome/wall_tag.sh"
+--            awful.util.spawn(wallpaper_cmd)
+--        end)
+--    end
 --end
+--                                                             -- }}}
 
 
------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------MENU-----------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
---
+-- Menu
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
@@ -222,12 +164,12 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
+                                    --{ "Debian", debian.menu.Debian_menu.Debian },
                                     { "open terminal", terminal },
 				    {"Firefox", "firefox"},
-					--{"Pidgin", "pidgin"},
+					{"Chrome", "google-chrome"},
 				    {"Home","nautilus"},
-				    --{"Log out", "/home/adarsh/.config/awesome/shutdown_dialog.sh"},
+				    --{"Log out", "/home/reddragon/.config/awesome/shutdown_dialog.sh"},
 				    {"Logout", logout.menu.Logout_menu.Logout},
                                   }
                         })
@@ -238,9 +180,7 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 
 
-------------------------------------------------------------------------------------------------------------------------------
-------------------------------------WIDGET AND WIBOX--------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
+-- Widget and wibox
 --
 -- {{{ Wibox
 -- Network Usage widget
@@ -306,11 +246,11 @@ mysystray = widget({ type = "systray" })
 
 
 --- Launcher for widgets by Adarsh 
-mpc_pause_launcher = awful.widget.launcher({name="mpc_pause_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/yellow/pause.png", command="ncmpcpp pause"})
-mpc_play_launcher = awful.widget.launcher({name="mpc_play_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/green/play.png", command="ncmpcpp play"})
-mpc_stop_launcher = awful.widget.launcher({name="mpc_stop_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/red/stop.png", command="ncmpcpp stop"})
-mpc_prev_launcher = awful.widget.launcher({name="mpc_prev_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/blue/prev.png", command="ncmpcpp prev"})
-mpc_next_launcher = awful.widget.launcher({name="mpc_next_launcher", image="/home/adarsh/.config/awesome/themes/colored/widgets/blue/next.png", command="ncmpcpp next"})
+mpc_pause_launcher = awful.widget.launcher({name="mpc_pause_launcher", image="/home/reddragon/.config/awesome/themes/colored/widgets/yellow/pause.png", command="ncmpcpp pause"})
+mpc_play_launcher = awful.widget.launcher({name="mpc_play_launcher", image="/home/reddragon/.config/awesome/themes/colored/widgets/green/play.png", command="ncmpcpp play"})
+mpc_stop_launcher = awful.widget.launcher({name="mpc_stop_launcher", image="/home/reddragon/.config/awesome/themes/colored/widgets/red/stop.png", command="ncmpcpp stop"})
+mpc_prev_launcher = awful.widget.launcher({name="mpc_prev_launcher", image="/home/reddragon/.config/awesome/themes/colored/widgets/blue/prev.png", command="ncmpcpp prev"})
+mpc_next_launcher = awful.widget.launcher({name="mpc_next_launcher", image="/home/reddragon/.config/awesome/themes/colored/widgets/blue/next.png", command="ncmpcpp next"})
 
 --- Tooltip for mpc launchers by Adarsh
 mpc_tooltip = awful.tooltip({
@@ -414,15 +354,16 @@ for s = 1, screen.count() do
             mylauncher,
             mytaglist[s],
             mypromptbox[s],
+            --APW,
 	    --volume_widget,
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
         mytextclock,
 	separator,
-	tb_volume, --- Added by Adarsh
-	vol,
-	separator,
+	-- tb_volume, --- Added by Adarsh
+	-- APW,
+	-- separator,
 	dnicon,
 	netwidget,
 	upicon,
@@ -443,6 +384,7 @@ for s = 1, screen.count() do
 	mpc_prev_launcher,
 	--mpdwidget,--- Added by Adarsh
 	separator,
+    APW,
     --score, ---Added by Adarsh
 	--	separator,
 --	memwidget,
@@ -453,9 +395,7 @@ for s = 1, screen.count() do
 end
 -- }}}
 
-------------------------------------------------------------------------------------------------------------------------------
 ----------------------- CONKY ------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------
 --mystatusbar = awful.wibox({position="bottom",screen=1, ontop = false, width = 1, height = 16})
 
 
@@ -523,15 +463,19 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
---  awful.key({}, "F8", function () awful.util.spawn("ncmpcpp pause") end),--- By Adarsh for mpc
---  awful.key({}, "F9", function () awful.util.spawn("ncmpcpp play") end),--- By Adarsh for mpc
+    awful.key({ }, "XF86AudioRaiseVolume",  APW.Up),
+    awful.key({ }, "XF86AudioLowerVolume",  APW.Down),
+    awful.key({ }, "XF86AudioMute",         APW.ToggleMute),
+    awful.key({ modkey, "Shift"}, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey }, "w", function () awful.util.spawn("/opt/kingsoft/wps-office/office6/wps") end),--- for word
+    awful.key({ modkey }, "s", function () awful.util.spawn("/opt/kingsoft/wps-office/office6/et") end),--- for excel
 --  For scratchpad clients --
 --  By Adarsh --
     --awful.key({ modkey }, "s", function () scratch.pad.toggle() end),
     --awful.key({ modkey }, "d", function ("xterm") scratch.pad.set("xterm", 0.60, 0.60, false) end),
     awful.key({ modkey }, "F1", function () scratch.drop("xterm ranger", "center") end),
     awful.key({ modkey }, "F2", function () scratch.drop("xterm ncmpcpp", "bottom", "center", 1,0.5) end),
-    awful.key({ modkey }, "F12", function () scratch.drop("gvim /home/adarsh/Temporary/how_to_code", "center", "right",0.2,0.8) end),
+    awful.key({ modkey }, "F12", function () scratch.drop("gvim /home/reddragon/Temporary/how_to_code", "center", "right",0.2,0.8) end),
 
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
@@ -683,9 +627,3 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 --
---
--- ----------------------------------------------------------------------------------------------------------------------------------------
--- ---------------------- CUSTOMIZED HOOKS-------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------------------------------------------
---- By Adarsh
-awful.hooks.timer.register(10, function () volume("update", tb_volume) end)--By Adarsh
